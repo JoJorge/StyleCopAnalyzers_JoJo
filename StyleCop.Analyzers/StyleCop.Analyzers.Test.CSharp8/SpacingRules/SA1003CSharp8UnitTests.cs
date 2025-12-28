@@ -329,5 +329,39 @@ namespace TestNamespace
 
             await VerifyCSharpFixAsync(testCode, expected, fixedCode, CancellationToken.None).ConfigureAwait(false);
         }
+
+        [Fact]
+        public async Task TestNullForgivingOperatorAtEndOfLineBeforeMemberAccessAsync()
+        {
+            var testCode = @"
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        public void TestOnParameter(string? maybeNullParameter)
+        {
+            var result = maybeNullParameter!
+                .ToString();
+        }
+
+        private string? _maybeNullProperty;
+        public void TestOnProperty()
+        {
+            var result = _maybeNullProperty!
+                .ToString();
+        }
+
+        private string? MaybeNullMethod() => null;
+        public void TestOnMethod()
+        {
+            var result = MaybeNullMethod()!
+                .ToString();
+        }
+    }
+}
+";
+
+            await VerifyCSharpDiagnosticAsync(testCode, DiagnosticResult.EmptyDiagnosticResults, CancellationToken.None).ConfigureAwait(false);
+        }
     }
 }

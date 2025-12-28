@@ -393,9 +393,22 @@ namespace StyleCop.Analyzers.SpacingRules
                 break;
             }
 
-            // If the next token is a close brace token we are in an anonymous object creation or an initialization.
-            // Then we allow a new line
-            bool allowEndOfLine = followingToken.IsKind(SyntaxKind.CloseBraceToken);
+            bool allowEndOfLine;
+            if (followingToken.IsKind(SyntaxKind.CloseBraceToken))
+            {
+                // If the next token is a close brace token we are in an anonymous object creation or an initialization.
+                // Then we allow a new line
+                allowEndOfLine = true;
+            }
+            else if (followingToken.IsKind(SyntaxKind.DotToken) && followingToken.IsFirstInLine())
+            {
+                // Allow null forgiving operator at end of line when followed by member access on the next line
+                allowEndOfLine = true;
+            }
+            else
+            {
+                allowEndOfLine = false;
+            }
 
             CheckToken(context, unaryExpression.OperatorToken, false, allowEndOfLine, mustHaveTrailingWhitespace);
         }
