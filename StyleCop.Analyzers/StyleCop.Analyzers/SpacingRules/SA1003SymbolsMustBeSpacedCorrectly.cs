@@ -393,6 +393,7 @@ namespace StyleCop.Analyzers.SpacingRules
                 break;
             }
 
+            // Determine if the operator is allowed at the end of a line
             bool allowEndOfLine;
             if (followingToken.IsKind(SyntaxKind.CloseBraceToken))
             {
@@ -403,6 +404,13 @@ namespace StyleCop.Analyzers.SpacingRules
             else if (followingToken.IsKind(SyntaxKind.DotToken) && followingToken.IsFirstInLine())
             {
                 // Allow null forgiving operator at end of line when followed by member access on the next line
+                allowEndOfLine = true;
+            }
+            else if (followingToken.IsKind(SyntaxKind.ColonToken) &&
+                     followingToken.Parent is ConditionalExpressionSyntax &&
+                     followingToken.IsFirstInLine())
+            {
+                // Allow null forgiving operator at end of line when followed by colon in conditional expression on the next line
                 allowEndOfLine = true;
             }
             else

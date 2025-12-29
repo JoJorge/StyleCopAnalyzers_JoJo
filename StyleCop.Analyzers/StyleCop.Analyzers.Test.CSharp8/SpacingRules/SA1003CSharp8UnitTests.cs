@@ -363,5 +363,31 @@ namespace TestNamespace
 
             await VerifyCSharpDiagnosticAsync(testCode, DiagnosticResult.EmptyDiagnosticResults, CancellationToken.None).ConfigureAwait(false);
         }
+
+        [Fact]
+        public async Task TestNullForgivingOperatorAtEndOfLineBeforeConditionalExpressionColonAsync()
+        {
+            var testCode = @"
+namespace TestNamespace
+{
+    public class TestClass
+    {
+        public void TestMethod(bool condition, string? canBeNullExpression)
+        {
+            var result1 = condition ? canBeNullExpression!
+                : ""default"";
+
+            var result2 = condition
+                ? canBeNullExpression!
+                : ""default"";
+
+            var result3 = condition ? canBeNullExpression! : ""default"";
+        }
+    }
+}
+";
+
+            await VerifyCSharpDiagnosticAsync(testCode, DiagnosticResult.EmptyDiagnosticResults, CancellationToken.None).ConfigureAwait(false);
+        }
     }
 }
