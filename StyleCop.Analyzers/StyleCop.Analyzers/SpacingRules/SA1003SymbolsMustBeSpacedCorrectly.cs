@@ -373,6 +373,7 @@ namespace StyleCop.Analyzers.SpacingRules
             case SyntaxKind.CommaToken:
             case SyntaxKind.DotToken:
             case SyntaxKind.MinusGreaterThanToken:
+            case SyntaxKind.OpenParenToken:
                 mustHaveTrailingWhitespace = false;
                 break;
 
@@ -411,6 +412,11 @@ namespace StyleCop.Analyzers.SpacingRules
                      followingToken.IsFirstInLine())
             {
                 // Allow null forgiving operator at end of line when followed by colon in conditional expression on the next line
+                allowEndOfLine = true;
+            }
+            else if (followingToken.IsKind(SyntaxKind.OpenParenToken) && followingToken.IsFirstInLine())
+            {
+                // Allow null forgiving operator at end of line when followed by delegate invocation on the next line
                 allowEndOfLine = true;
             }
             else

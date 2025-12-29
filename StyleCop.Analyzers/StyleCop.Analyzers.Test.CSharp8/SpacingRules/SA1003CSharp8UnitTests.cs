@@ -389,5 +389,37 @@ namespace TestNamespace
 
             await VerifyCSharpDiagnosticAsync(testCode, DiagnosticResult.EmptyDiagnosticResults, CancellationToken.None).ConfigureAwait(false);
         }
+
+        [Fact]
+        public async Task TestNullForgivingOperatorWithDelegateInvocationAsync()
+        {
+            var testCode = @"
+namespace TestNamespace
+{
+    using System;
+
+    public class TestClass
+    {
+        public void TestMethod()
+        {
+            Func<string>? delegateThatMightReturnNull = null;
+
+            // Inline invocation
+            var result1 = delegateThatMightReturnNull!();
+
+            // Invocation with arguments
+            Func<int, string>? delegateWithArgs = null;
+            var result2 = delegateWithArgs!(42);
+
+            // Multi-line invocation
+            var result3 = delegateThatMightReturnNull!
+                ();
+        }
+    }
+}
+";
+
+            await VerifyCSharpDiagnosticAsync(testCode, DiagnosticResult.EmptyDiagnosticResults, CancellationToken.None).ConfigureAwait(false);
+        }
     }
 }
