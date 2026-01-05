@@ -110,6 +110,32 @@ public {keyword} Foo
             await VerifyCSharpFixAsync(testCode, expected, fixTestCode, CancellationToken.None).ConfigureAwait(false);
         }
 
+        [Theory]
+        [InlineData("\n")]
+        [InlineData("\r\n")]
+        public async Task TestTwoFieldsInClassStaticReadonlyFieldPlacedAfterStaticNonReadonlyWithLineEndingAsync(string lineEnding)
+        {
+            var testCode = @"
+public class Foo
+{
+    private static int i = 0;
+    private static readonly int {|#0:j|} = 0;
+}".ReplaceLineEndings(lineEnding);
+
+            var expected = new[]
+            {
+                Diagnostic().WithLocation(0),
+            };
+
+            var fixTestCode = @"
+public class Foo
+{
+    private static readonly int j = 0;
+    private static int i = 0;
+}".ReplaceLineEndings(lineEnding);
+            await VerifyCSharpFixAsync(testCode, expected, fixTestCode, CancellationToken.None).ConfigureAwait(false);
+        }
+
         [Fact]
         public async Task TestTwoFieldsAllStaticReadonlyAsync()
         {
