@@ -5,6 +5,7 @@ namespace StyleCop.Analyzers.Test.CSharp10.SpacingRules
 {
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.CodeAnalysis.Testing;
     using StyleCop.Analyzers.Test.CSharp9.SpacingRules;
     using Xunit;
     using static StyleCop.Analyzers.SpacingRules.SA1008OpeningParenthesisMustBeSpacedCorrectly;
@@ -106,6 +107,39 @@ class TestClass
                 {
                     Diagnostic(DescriptorPreceded).WithLocation(0),
                 },
+            }.RunAsync(CancellationToken.None).ConfigureAwait(false);
+        }
+
+        [Fact]
+        [WorkItem(3990, "https://github.com/DotNetAnalyzers/StyleCopAnalyzers/issues/3990")]
+        public async Task TestMixedDeconstructionOpeningParenthesisSpacingAsync()
+        {
+            var testCode = @"public class TestClass
+{
+    public void TestMethod()
+    {
+        int value = 1;
+        {|#0:(|} value, int newValue) = (2, 3);
+    }
+}";
+
+            var fixedCode = @"public class TestClass
+{
+    public void TestMethod()
+    {
+        int value = 1;
+        (value, int newValue) = (2, 3);
+    }
+}";
+
+            await new CSharpTest()
+            {
+                ExpectedDiagnostics =
+                {
+                    Diagnostic(DescriptorNotFollowed).WithLocation(0),
+                },
+                TestCode = testCode,
+                FixedCode = fixedCode,
             }.RunAsync(CancellationToken.None).ConfigureAwait(false);
         }
     }
