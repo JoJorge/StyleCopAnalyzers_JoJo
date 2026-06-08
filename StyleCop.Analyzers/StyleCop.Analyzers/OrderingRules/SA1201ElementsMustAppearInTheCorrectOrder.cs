@@ -115,7 +115,7 @@ namespace StyleCop.Analyzers.OrderingRules
         /// The ID for diagnostics produced by the <see cref="SA1201ElementsMustAppearInTheCorrectOrder"/> analyzer.
         /// </summary>
         public const string DiagnosticId = "SA1201";
-        private const string HelpLink = "https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1201.md";
+        private const string HelpLink = "https://github.com/JoJorge/StyleCopAnalyzers_JoJo/blob/master/documentation/SA1201.md";
         private static readonly LocalizableString Title = new LocalizableResourceString(nameof(OrderingResources.SA1201Title), OrderingResources.ResourceManager, typeof(OrderingResources));
         private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(OrderingResources.SA1201MessageFormat), OrderingResources.ResourceManager, typeof(OrderingResources));
         private static readonly LocalizableString Description = new LocalizableResourceString(nameof(OrderingResources.SA1201Description), OrderingResources.ResourceManager, typeof(OrderingResources));
@@ -134,20 +134,20 @@ namespace StyleCop.Analyzers.OrderingRules
             SyntaxKind.ClassDeclaration);
 
         private static readonly ImmutableArray<SyntaxKind> TypeMemberOrder = ImmutableArray.Create(
+            SyntaxKind.EnumDeclaration,
+            SyntaxKind.StructDeclaration,
+            SyntaxKind.ClassDeclaration,
             SyntaxKind.FieldDeclaration,
             SyntaxKind.ConstructorDeclaration,
             SyntaxKind.DestructorDeclaration,
             SyntaxKind.DelegateDeclaration,
             SyntaxKind.EventDeclaration,
-            SyntaxKind.EnumDeclaration,
             SyntaxKind.InterfaceDeclaration,
             SyntaxKind.PropertyDeclaration,
             SyntaxKind.IndexerDeclaration,
             SyntaxKind.ConversionOperatorDeclaration,
             SyntaxKind.OperatorDeclaration,
-            SyntaxKind.MethodDeclaration,
-            SyntaxKind.StructDeclaration,
-            SyntaxKind.ClassDeclaration);
+            SyntaxKind.MethodDeclaration);
 
         private static readonly Dictionary<SyntaxKind, string> MemberNames = new Dictionary<SyntaxKind, string>
         {

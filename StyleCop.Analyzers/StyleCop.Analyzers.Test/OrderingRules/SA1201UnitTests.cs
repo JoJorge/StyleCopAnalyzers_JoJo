@@ -101,20 +101,21 @@ public {classKeyword} FooClass {{ }}
         {
             string testCode = @"public class OuterType
 {
+    public enum TestEnum { } 
+    public struct TestStruct { }
+    public class TestClass { }
     public string TestField;
     public OuterType() { TestField = ""foo""; TestProperty = """"; }
     ~OuterType() { }
     public delegate void TestDelegate();
     public event TestDelegate TestEvent { add { } remove { } }
-    public enum TestEnum { }
+    
     public interface ITest { }
     public string TestProperty { get; set; }
     public string this[string arg] { get { return ""foo""; } set { } }
     public static explicit operator bool(OuterType t1) { return t1.TestField != null; }
     public static OuterType operator +(OuterType t1, OuterType t2) { return t1; }
     public void TestMethod () { }
-    public struct TestStruct { }
-    public class TestClass { }
 }
 ";
 
@@ -126,19 +127,20 @@ public {classKeyword} FooClass {{ }}
         {
             string testCode = @"public struct OuterType
 {
+    public enum TestEnum { }
+    public struct TestStruct { }
+    public class TestClass { }
     public string TestField;
     public OuterType(int argument) { TestField = ""foo""; TestProperty = """"; }
     public delegate void TestDelegate();
     public event TestDelegate TestEvent { add { } remove { } }
-    public enum TestEnum { }
     public interface ITest { }
     public string TestProperty { get; set; }
     public string this[string arg] { get { return ""foo""; } set { } }
     public static explicit operator bool(OuterType t1) { return t1.TestField != null; }
     public static OuterType operator +(OuterType t1, OuterType t2) { return t1; }
     public void TestMethod () { }
-    public struct TestStruct { }
-    public class TestClass { }
+
 }
 ";
 
@@ -185,28 +187,29 @@ public {classKeyword} FooClass {{ }}
             {
                 Diagnostic().WithLocation(5, 12).WithArguments("constructor", "destructor"),
                 Diagnostic().WithLocation(7, 26).WithArguments("delegate", "interface"),
+                Diagnostic().WithLocation(9, 17).WithArguments("enum", "event"),
                 Diagnostic().WithLocation(11, 5).WithArguments("conversion", "operator"),
                 Diagnostic().WithLocation(12, 19).WithArguments("property", "conversion"),
-                Diagnostic().WithLocation(14, 17).WithArguments("method", "struct"),
-                Diagnostic().WithLocation(16, 19).WithArguments("indexer", "class"),
+                Diagnostic().WithLocation(13, 19).WithArguments("struct", "property"),
+                Diagnostic().WithLocation(15, 18).WithArguments("class", "method"),
             };
 
             string fixedCode = @"public class OuterType
 {
+    public enum TestEnum { }
+    public struct TestStruct { }
+    public class TestClass { }
     public string TestField;
     public OuterType() { }
     ~OuterType() { }
     public delegate void TestDelegate();
     public event TestDelegate TestEvent { add { } remove { } }
-    public enum TestEnum { }
     public interface ITest { }
     public string TestProperty { get; set; }
     public string this[string arg] { get { return ""foo""; } set { } }
     public static explicit operator bool(OuterType t1) { return t1.TestField != null; }
     public static OuterType operator +(OuterType t1, OuterType t2) { return t1; }
     public void TestMethod () { }
-    public struct TestStruct { }
-    public class TestClass { }
 }
 ";
 
@@ -214,8 +217,8 @@ public {classKeyword} FooClass {{ }}
             {
                 TestCode = testCode,
                 FixedCode = fixedCode,
-                NumberOfIncrementalIterations = 8,
-                NumberOfFixAllIterations = 3,
+                NumberOfIncrementalIterations = 9,
+                NumberOfFixAllIterations = 2,
             };
 
             test.ExpectedDiagnostics.AddRange(expected);
@@ -245,27 +248,28 @@ public {classKeyword} FooClass {{ }}
             var expected = new[]
             {
                 Diagnostic().WithLocation(6, 26).WithArguments("delegate", "interface"),
+                Diagnostic().WithLocation(8, 17).WithArguments("enum", "event"),
                 Diagnostic().WithLocation(10, 5).WithArguments("conversion", "operator"),
                 Diagnostic().WithLocation(11, 19).WithArguments("property", "conversion"),
-                Diagnostic().WithLocation(13, 17).WithArguments("method", "struct"),
-                Diagnostic().WithLocation(15, 19).WithArguments("indexer", "class"),
+                Diagnostic().WithLocation(12, 19).WithArguments("struct", "property"),
+                Diagnostic().WithLocation(14, 18).WithArguments("class", "method"),
             };
 
             string fixedCode = @"public struct OuterType
 {
+    public enum TestEnum { }
+    public struct TestStruct { }
+    public class TestClass { }
     public string TestField;
     public OuterType(int argument) { TestField = ""foo""; TestProperty = ""bar""; }
     public delegate void TestDelegate();
     public event TestDelegate TestEvent { add { } remove { } }
-    public enum TestEnum { }
     public interface ITest { }
     public string TestProperty { get; set; }
     public string this[string arg] { get { return ""foo""; } set { } }
     public static explicit operator bool(OuterType t1) { return t1.TestField != null; }
     public static OuterType operator +(OuterType t1, OuterType t2) { return t1; }
     public void TestMethod () { }
-    public struct TestStruct { }
-    public class TestClass { }
 }
 ";
 
@@ -273,8 +277,8 @@ public {classKeyword} FooClass {{ }}
             {
                 TestCode = testCode,
                 FixedCode = fixedCode,
-                NumberOfIncrementalIterations = 7,
-                NumberOfFixAllIterations = 3,
+                NumberOfIncrementalIterations = 8,
+                NumberOfFixAllIterations = 2,
             };
 
             test.ExpectedDiagnostics.AddRange(expected);
