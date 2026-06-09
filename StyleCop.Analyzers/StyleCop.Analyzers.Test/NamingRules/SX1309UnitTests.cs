@@ -25,6 +25,8 @@ namespace StyleCop.Analyzers.Test.NamingRules
                 yield return new[] { "private" };
                 yield return new[] { "readonly" };
                 yield return new[] { "private readonly" };
+                yield return new[] { "protected" };
+                yield return new[] { "protected readonly" };
             }
         }
 
@@ -51,11 +53,9 @@ namespace StyleCop.Analyzers.Test.NamingRules
                 yield return new[] { "protected internal const" };
                 yield return new[] { "private const" };
                 yield return new[] { "public" };
-                yield return new[] { "protected" };
                 yield return new[] { "internal" };
                 yield return new[] { "protected internal" };
                 yield return new[] { "public readonly" };
-                yield return new[] { "protected readonly" };
                 yield return new[] { "internal readonly" };
                 yield return new[] { "protected internal readonly" };
             }

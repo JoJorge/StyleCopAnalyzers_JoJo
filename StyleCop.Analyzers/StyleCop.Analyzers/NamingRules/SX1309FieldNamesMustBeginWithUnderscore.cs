@@ -35,7 +35,7 @@ namespace StyleCop.Analyzers.NamingRules
         /// The ID for diagnostics produced by the <see cref="SX1309FieldNamesMustBeginWithUnderscore"/> analyzer.
         /// </summary>
         public const string DiagnosticId = "SX1309";
-        private const string HelpLink = "https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SX1309.md";
+        private const string HelpLink = "https://github.com/JoJorge/StyleCopAnalyzers_JoJo/blob/master/documentation/SX1309.md";
         private static readonly LocalizableString Title = new LocalizableResourceString(nameof(NamingResources.SX1309Title), NamingResources.ResourceManager, typeof(NamingResources));
         private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(NamingResources.SX1309MessageFormat), NamingResources.ResourceManager, typeof(NamingResources));
         private static readonly LocalizableString Description = new LocalizableResourceString(nameof(NamingResources.SX1309Description), NamingResources.ResourceManager, typeof(NamingResources));
@@ -71,9 +71,8 @@ namespace StyleCop.Analyzers.NamingRules
                     return;
 
                 case SyntaxKind.InternalKeyword:
-                case SyntaxKind.ProtectedKeyword:
                 case SyntaxKind.PublicKeyword:
-                    // This analyzer only looks at private fields.
+                    // This analyzer only looks at private or protected fields.
                     return;
 
                 default:
