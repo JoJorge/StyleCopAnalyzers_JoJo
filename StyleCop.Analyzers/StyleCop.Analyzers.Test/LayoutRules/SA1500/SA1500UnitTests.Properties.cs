@@ -5,6 +5,7 @@
 
 namespace StyleCop.Analyzers.Test.LayoutRules
 {
+    using System.Globalization;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.CodeAnalysis.Testing;
@@ -96,6 +97,12 @@ public class Foo
 
     // Valid property #8  (Valid for SA1500 only)
     public int[] Property8 { get; set; } = { 0, 1, 2 };
+
+    // Valid property #9  (Valid for SA1500 only) - multi-line accessor list with initializer
+    public int Property9
+    {
+        get; set;
+    } = 1;
 }";
 
             await VerifyCSharpDiagnosticAsync(testCode, DiagnosticResult.EmptyDiagnosticResults, CancellationToken.None).ConfigureAwait(false);
@@ -481,6 +488,8 @@ public class TestClass
         [Fact]
         public async Task TestAccessorMissingOpeningBraceAsync()
         {
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
             var testCode = @"
 class ClassName
 {
@@ -517,6 +526,8 @@ class ClassName
         [Fact]
         public async Task TestAccessorMissingClosingBraceAtEndOfFileAsync()
         {
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
             var testCode = @"
 class ClassName
 {

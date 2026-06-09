@@ -303,6 +303,16 @@ namespace StyleCop.Analyzers.LayoutRules
                     // these are allowed to appear on the same line
                     return;
 
+                case SyntaxKind.EqualsToken:
+                    // allow property initializer: public int Prop { get; set; } = value;
+                    if (nextToken.Parent.IsKind(SyntaxKind.EqualsValueClause)
+                        && nextToken.Parent.Parent.IsKind(SyntaxKind.PropertyDeclaration))
+                    {
+                        return;
+                    }
+
+                    break;
+
                 case SyntaxKind.EndOfFileToken:
                     // last token of this file
                     return;
