@@ -16,6 +16,7 @@
 
 **`StyleCop.Analyzers/OrderingRules/OrderingResources.resx`**
 
+- 根據規則的分類選擇對應的資料夾與resx檔
 - 規則的 Title、MessageFormat、Description
 - 注意：`Lightup/.generated/` 下的 `.Designer.cs` 是自動產生，不要直接修改
 
