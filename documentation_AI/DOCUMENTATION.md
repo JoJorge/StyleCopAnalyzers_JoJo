@@ -1,5 +1,7 @@
 StyleCop.Analyzers(JoJorge ver.) 提供針對 C# 程式碼風格與一致性的警告規則，依功能分為以下幾個 rule area。本資料夾為簡化版 AI 參考文件，每個 area 整合為單一檔案，供生成 UML 與程式時快速查閱。
 
+如果有自行透過.editorconfig等方式調整coding style規則，應同步更新此文件，以避免AI出錯或是浪費token。
+
 ### Rule areas
 
 **[Special Rules (SA0000-)](SpecialRules.md)**
